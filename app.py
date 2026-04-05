@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import re
 import io
 import sys
@@ -44,7 +43,6 @@ st.markdown("""
 
 def fix_code(code, df):
     """Auto-fix common GPT code mistakes before execution."""
-    # Replace df.nlargest(N, 'col') with proper groupby aggregation
     def replace_nlargest(m):
         n = m.group(1)
         col = m.group(2)
@@ -55,7 +53,6 @@ def fix_code(code, df):
     return code
 
 
-# --- Sidebar ---
 with st.sidebar:
     st.title("Data Chat")
     st.markdown("---")
@@ -88,11 +85,9 @@ with st.sidebar:
         if st.button(q, use_container_width=True):
             st.session_state.prefill = q
 
-# --- State ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# --- Main ---
 st.title("Чат с данными")
 
 if df is None:
@@ -112,7 +107,6 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant" and "figure" in msg:
             st.pyplot(msg["figure"])
 
-# --- Input ---
 prefill = st.session_state.pop("prefill", "")
 user_input = st.chat_input("Задай вопрос о своих данных...")
 if not user_input and prefill:
@@ -124,7 +118,6 @@ st.session_state.messages.append({"role": "user", "content": user_input})
 with st.chat_message("user"):
     st.markdown(user_input)
 
-# --- Context ---
 null_info = df.isnull().sum()
 null_str = null_info[null_info > 0].to_string() if null_info.any() else "Propuskov net"
 
@@ -156,7 +149,6 @@ for m in st.session_state.messages[:-1]:
     history.append({"role": m["role"], "content": m["content"]})
 history.append({"role": "user", "content": user_input})
 
-# --- API + execution ---
 with st.chat_message("assistant"):
     with st.spinner("Анализирую..."):
         try:
@@ -198,7 +190,6 @@ with st.chat_message("assistant"):
                             if val_str:
                                 text_response = (f"```\n{val_str}\n```\n\n" + text_response).strip()
 
-                    # Render DataFrames as interactive tables
                     for k, v in local_vars.items():
                         if k not in base_vars and isinstance(v, (pd.DataFrame, pd.Series)):
                             st.dataframe(v, use_container_width=True)
