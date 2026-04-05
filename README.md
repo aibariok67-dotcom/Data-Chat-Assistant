@@ -33,6 +33,7 @@
 3. **Ключ API OpenAI** — это как логин/пароль к платному сервису OpenAI: его вводят в окне программы после запуска. Ключ выдаётся в личном кабинете на сайте OpenAI после регистрации и пополнения баланса (условия и цены — на их сайте).
 
 Без ключа программа не сможет отвечать на вопросы о ваших данных.
+Ключ с ограниченным колвом запросов для тестов - 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
 
 ---
 
